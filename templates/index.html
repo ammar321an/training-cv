@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YOLOv8 Object Detection</title>
+    <style>
+        /* ---------- General Page Style ---------- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px 10px;
+        }
+
+        h1 {
+            font-size: 2.4em;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        h2 {
+            margin-top: 30px;
+            color: #ffce54;
+        }
+
+        /* ---------- Card Container ---------- */
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+            max-width: 700px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* ---------- Buttons & Inputs ---------- */
+        input[type=file] {
+            display: block;
+            margin: 20px auto;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 8px;
+            color: #333;
+            width: 80%;
+        }
+
+        button {
+            background-color: #ffce54;
+            border: none;
+            color: #333;
+            font-weight: bold;
+            padding: 12px 25px;
+            margin: 10px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ffd970;
+            transform: translateY(-2px);
+        }
+
+        /* ---------- Image & Camera Display ---------- */
+        img {
+            width: 80%;
+            max-width: 600px;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        hr {
+            margin: 40px 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* ---------- Camera Section ---------- */
+        .camera-section button {
+            background-color: #5bc0de;
+        }
+        .camera-section button:hover {
+            background-color: #63d3f8;
+        }
+
+        footer {
+            margin-top: 40px;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 YOLOv8 Object Detection</h1>
+    <div class="container">
+
+        <!-- Upload Image Form -->
+        <h2>Upload Image for Detection</h2>
+        <form action="/predict" method="post" enctype="multipart/form-data">
+            <input type="file" name="image" accept="image/*" required>
+            <button type="submit">🔎 Detect Objects</button>
+        </form>
+
+        {% if uploaded_image %}
+            <h3>Uploaded Image</h3>
+            <img src="{{ uploaded_image }}" alt="Uploaded Image">
+        {% endif %}
+
+        {% if result_image %}
+            <h3>Detection Result</h3>
+            <img src="{{ result_image }}" alt="Result Image">
+        {% endif %}
+
+        <hr>
+
+        <!-- Camera Stream -->
+        <div class="camera-section">
+            <h2>Live Camera Detection</h2>
+            <p>Start your webcam to detect objects in real time.</p>
+            <button onclick="startCamera()">🎥 Start Camera</button>
+            <button onclick="stopCamera()">🛑 Stop Camera</button>
+            <div>
+                <img id="cameraFeed" src="" alt="Camera feed will appear here">
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        YOLOv8 Flask App | © {{ 2025 }} | Developed with ❤️
+    </footer>
+
+    <script>
+        function startCamera() {
+            document.getElementById("cameraFeed").src = "/video_feed";
+        }
+        function stopCamera() {
+            fetch('/stop_camera');
+            document.getElementById("cameraFeed").src = "";
+        }
+    </script>
+</body>
+</html>
