@@ -15,7 +15,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['RESULT_FOLDER'] = RESULT_FOLDER
 
 # Model server URL (from Vercel environment variable)
-MODEL_SERVER_URL = os.getenv('MODEL_SERVER_URL', 'https://civic-anthropomorphically-viola.ngrok-free.dev')
+MODEL_SERVER_URL = 'https://civic-anthropomorphically-viola.ngrok-free.dev'
 
 @app.route('/')
 def index():
